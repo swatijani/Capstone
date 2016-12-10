@@ -1,0 +1,100 @@
+---
+title: "Capstone Project"
+author: "Swati Jani Joshi"
+date: "November 18 2016"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Springboard Capstone Project
+
+This is the Springboard Capstone Prject Code. The data set is from kaggle Prima Indians Diabetes Database found <https://www.kaggle.com/uciml/pima-indians-diabetes-database>
+
+#### Read and Load Data
+```{r cars}
+library("ROCR")
+library(ggplot2)
+diabetes <- read.csv("~/Documents/Springboard Capstone Project/Data Files/diabetes.csv")
+```
+
+#### Examine the Structure of the Dataset
+```{r}
+str(diabetes)
+```
+
+#### Data Manipulation
+##### Since it is not possible for a person to have Blood Pressure, Skin Thickness and Insulin of 0 those observations will be removed 
+```{r}
+diabetes$Outcome <- factor(diabetes$Outcome)
+for (i in 2:6) {
+diabetes <- diabetes[-which(diabetes[,i] ==0), ]}
+```
+
+#### Examine the Structure of the Modified Dataset
+```{r}
+str(diabetes)
+```
+
+#### Plotting Histograms to better understand the type of distribution
+```{r}
+hist(diabetes$Pregnancies)
+hist(diabetes$Glucose)
+hist(diabetes$BloodPressure)
+hist(diabetes$SkinThickness)
+hist(diabetes$Insulin)
+hist(diabetes$BMI)
+hist(diabetes$DiabetesPedigreeFunction)
+hist(diabetes$Age)
+```
+
+#### Splitting the Dataset
+```{r}
+set.seed(140)
+training_set <- sort(sample(nrow(diabetes), nrow(diabetes)*.7))
+diabetes_train <- diabetes[training_set,]
+diabetes_test <- diabetes[-training_set,]
+```
+
+#### Logistic Regression Model
+```{r}
+model <- glm(Outcome~.,data=diabetes_train,family = binomial(link='logit'))
+summary(model)
+```
+
+#### Using the model on the Test Set
+```{r}
+predictions <- predict(model,newdata=diabetes_test,type="response")
+predictions <- round(predictions)
+mean(predictions==diabetes_test$Outcome)
+```
+
+#### Better Logistic Regression Model
+```{r}
+model2 <- glm(Outcome~Glucose + BMI + DiabetesPedigreeFunction,data=diabetes_train,family = binomial(link='logit'))
+summary(model2)
+```
+
+#### Using the model on the Test Set
+```{r}
+predictions2 <- predict(model2,newdata=diabetes_test,type="response")
+predictions2 <- round(predictions2)
+mean(predictions2==diabetes_test$Outcome)
+```
+
+#### ROC Curve
+```{r}
+p = predict(model2, diabetes_test, type="response")
+pr = prediction(p, diabetes_test$Outcome)
+prf = performance(pr, measure = "tpr", x.measure = "fpr")
+plot(prf)
+```
+
+#### AUC
+```{r}
+auc = performance(pr, measure = "auc")
+auc = auc@y.values[[1]]
+print(paste("Model Accuracy", auc))
+```

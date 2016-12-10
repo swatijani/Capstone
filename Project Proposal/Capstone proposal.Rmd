@@ -1,0 +1,30 @@
+---
+title: "Capstone Project Proposal"
+author: "Swati Jani Joshi"
+date: "June 15, 2016"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Private vs Public School Education 
+
+This R Markdown document contains the proposal for my capstone project.
+
+
+####1.	What is the problem you want to solve?
+I want to help parents decide whether sending children to expensive private schools is beneficial for children as compared to sending them to public schools. I want to attempt to answer the question whether private school educated children are more successful as compared to public school children.  Success will be defined in terms of grades, achieved in school, whether they graduated from high school or not, whether they got admitted to colleges and universities or not.
+
+####2.	Who is your client and why do they care about this problem?
+I believe many parents with school going aged children will be interested in my analysis. It will help them determine if sending children to expensive private schools is really beneficial to the children or not. It could help parents decide on either spending money on expensive private schools or potentially help them save the annual cost of private school education.
+
+####3.	What data are you going to use for this? How will you acquire this data?
+I will use data from data.gov and ed.gov. Data is available for download on these sites.
+
+####4.	In brief, outline your approach to solving this problem.
+I will compare and compile data from both public and private schools. Over the same period of time, I will compare success of children attending both public and private schools.
+
+####5.	What are your deliverables?
+My deliverables will be the sample dataset, code and presentation slide deck including plots.
